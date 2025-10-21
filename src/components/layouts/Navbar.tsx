@@ -4,11 +4,13 @@ import logo from "@/assets/Logo.png";
 export default function Navbar() {
   return (
     <nav className="flex items-center justify-between px-30 py-4 shadow-sm bg-white">
-      <div className="flex items-center gap-2">
+      {/* Logo & Name (clickable) */}
+      <NavLink to="/" className="flex items-center gap-2 hover:opacity-90">
         <img src={logo} alt="SIMS PPOB Logo" className="w-6 h-6" />
-        <h1 className="font-semibold text-lg">SIMS PPOB</h1>
-      </div>
+        <h1 className="font-semibold text-lg text-gray-900">SIMS PPOB</h1>
+      </NavLink>
 
+      {/* Navigation Links */}
       <div className="flex gap-8 text-sm font-medium">
         <NavLink
           to="/topup"

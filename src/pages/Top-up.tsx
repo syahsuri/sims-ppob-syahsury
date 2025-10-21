@@ -1,11 +1,11 @@
-import React from 'react'
+import Userbalance from "@/components/layouts/Users-balance";
 
-const Topup = () => {
+export default function Topup() {
   return (
-    <div>
+    <div className="p-8">
+      <Userbalance name="Kristanto Wibowo" />
       
+      {/* ... other Topup sections like icons and promos ... */}
     </div>
-  )
+  );
 }
-
-export default Topup

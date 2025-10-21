@@ -1,10 +1,11 @@
+import Userbalance from "@/components/layouts/Users-balance";
 
-const Transaction = () => {
+export default function Transaction() {
   return (
-    <div>
+    <div className="p-8">
+      <Userbalance name="Kristanto Wibowo" />
       
+      {/* ... other Transaction sections like icons and promos ... */}
     </div>
-  )
+  );
 }
-
-export default Transaction
