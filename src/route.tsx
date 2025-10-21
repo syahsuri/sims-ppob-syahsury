@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Navigate to="/home" replace />, // Redirect root to /home
+        element: <Navigate to="/home" replace />, 
       },
       {
         path: "/home",
