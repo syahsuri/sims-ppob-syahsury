@@ -1,9 +1,8 @@
-// src/data/SliderData.ts
-import banner1 from "@/assets/sliderdata/Banner1.png";
-import banner2 from "@/assets/sliderdata/Banner2.png";
-import banner3 from "@/assets/sliderdata/Banner3.png";
-import banner4 from "@/assets/sliderdata/Banner4.png";
-import banner5 from "@/assets/sliderdata/Banner5.png";
+import banner1 from "@/assets/slider-icon/Banner1.png";
+import banner2 from "@/assets/slider-icon/Banner2.png";
+import banner3 from "@/assets/slider-icon/Banner3.png";
+import banner4 from "@/assets/slider-icon/Banner4.png";
+import banner5 from "@/assets/slider-icon/Banner5.png";
 
 export interface Banner {
   id: number;

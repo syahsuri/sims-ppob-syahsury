@@ -1,9 +1,11 @@
+import { ProfileForm } from "@/components/account/account-profile";
+
 const Account = () => {
   return (
-    <div>
-      
+    <div className="p-8 space-y-6">
+      <ProfileForm />
     </div>
-  )
-}
+  );
+};
 
-export default Account
+export default Account;
