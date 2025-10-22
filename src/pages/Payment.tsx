@@ -13,7 +13,6 @@ export default function Payment() {
   );
 
   const location = useLocation();
-  
 
   const serviceCode = useMemo(() => {
     const params = new URLSearchParams(location.search);
@@ -25,7 +24,9 @@ export default function Payment() {
   }, [dispatch]);
 
   const selectedService = useMemo(() => {
-    return services.find((s) => s.code.toLowerCase() === serviceCode);
+    return services.find(
+      (s) => s.code.toLowerCase() === serviceCode?.toLowerCase()
+    );
   }, [services, serviceCode]);
 
   if (loading) return <p className="text-center mt-10">Loading...</p>;
@@ -45,8 +46,8 @@ export default function Payment() {
             </div>
           </div>
           <PaymentCard
+            service_code={selectedService.code}
             amount={selectedService.tariff}
-            onPay={(amount) => console.log("Bayar:", amount)}
           />
         </div>
       </div>

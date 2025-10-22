@@ -23,7 +23,6 @@ const initialState: TransactionState = {
   error: null,
 };
 
-// Fetch history from API
 export const fetchTransactions = createAsyncThunk(
   "transactions/fetchHistory",
   async (_, thunkAPI) => {

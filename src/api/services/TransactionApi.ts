@@ -26,8 +26,11 @@ export const transactionApi = {
     return response.data.data.records;
   },
 
-  pay: async (payload: PaymentRequest): Promise<PaymentResponse> => {
-    const response = await axiosInstance.post<PaymentResponse>("/transaction", payload);
+  pay: async (payload: { service_code: string }) => {
+    const response = await axiosInstance.post<PaymentResponse>(
+      "/transaction",
+      payload
+    );
     return response.data;
   },
 };

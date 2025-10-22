@@ -5,9 +5,8 @@ import { fetchServices } from "@/redux/slices/ServiceSlice";
 import type { RootState, AppDispatch } from "@/redux/store";
 import { Link } from "react-router";
 
-interface ServiceListProps {}
 
-export default function ServiceList(props: ServiceListProps) {
+export default function ServiceList() {
   const dispatch = useDispatch<AppDispatch>();
   const { services, loading, error } = useSelector((state: RootState) => state.service);
 

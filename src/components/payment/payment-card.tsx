@@ -1,14 +1,32 @@
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { fetchBalance } from "@/redux/slices/BalanceSlice";
+import { createTransaction } from "@/redux/slices/PaymentSlice";
+import type { RootState } from "@/redux/store";
 import { Calculator } from "lucide-react";
+import { useNavigate } from "react-router";
 
 interface PaymentCardProps {
+  service_code: string;
   amount: number;
-  onPay: (amount: number) => void;
 }
 
-export default function PaymentCard({ amount = 0, onPay }: PaymentCardProps) {
+export default function PaymentCard({
+  amount = 0,
+  service_code,
+}: PaymentCardProps) {
+  const dispatch = useAppDispatch();
+  const { loading } = useAppSelector((state: RootState) => state.transactions);
 
-  const handlePay = () => {
-    if (amount) onPay(amount);
+  const navigate = useNavigate();
+
+  const handlePay = async () => {
+    if (service_code) {
+      const result = await dispatch(createTransaction(service_code));
+      if (createTransaction.fulfilled.match(result)) {
+        dispatch(fetchBalance());
+        navigate("/home");
+      }
+    }
   };
 
   return (
@@ -33,7 +51,7 @@ export default function PaymentCard({ amount = 0, onPay }: PaymentCardProps) {
             : "bg-gray-300 cursor-not-allowed"
         }`}
       >
-        Bayar
+        {loading ? "Memproses..." : "Bayar"}
       </button>
     </div>
   );
