@@ -31,7 +31,6 @@ export default function Userbalance() {
   return (
     <div className="w-full flex justify-center">
       <div className="w-full max-w-6xl flex flex-col md:flex-row justify-between items-center px-4 md:px-10 py-6 gap-6 md:gap-0">
-        {/* LEFT SIDE */}
         <div className="flex flex-col items-center md:items-start md:w-2/5">
           {loading ? (
             <div className="w-20 h-20 rounded-full bg-gray-200 animate-pulse mb-4" />
@@ -50,7 +49,6 @@ export default function Userbalance() {
           </h2>
         </div>
 
-        {/* RIGHT SIDE */}
         <div className="relative bg-[#F44336] text-white rounded-2xl w-full md:w-3/5 p-6 overflow-hidden shadow-md">
           <img
             src={bgWave}

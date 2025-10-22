@@ -13,13 +13,11 @@ const initialState: ServiceState = {
   loading: false,
   error: null,
 };
-
-// Async thunk to fetch services
 export const fetchServices = createAsyncThunk(
   "services/fetchAll",
   async (_, thunkAPI) => {
     try {
-      const data = await serviceApi.getAllServices(); // returns UiService[]
+      const data = await serviceApi.getAllServices(); 
       return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message || "Gagal memuat layanan");

@@ -19,19 +19,16 @@ export default function Navbar() {
         <h1 className="font-semibold text-lg text-gray-900">SIMS PPOB</h1>
       </NavLink>
 
-      {/* Desktop Links */}
       <div className="hidden md:flex gap-8 text-sm font-medium">
         <NavLink to="/topup" className={({ isActive }) => isActive ? "text-red-600" : "hover:text-red-600"}>Top Up</NavLink>
         <NavLink to="/transaction" className={({ isActive }) => isActive ? "text-red-600" : "hover:text-red-600"}>Transaction</NavLink>
         <NavLink to="/akun" className={({ isActive }) => isActive ? "text-red-600" : "hover:text-red-600"}>Akun</NavLink>
       </div>
 
-      {/* Mobile Hamburger */}
       <button className="md:hidden focus:outline-none z-20" onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      {/* Mobile Sidebar */}
       <div className={`fixed top-0 right-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 z-10 ${isOpen ? "translate-x-0" : "translate-x-full"}`}>
         <div className="flex flex-col mt-20 px-6 gap-6">
           <NavLink to="/home" className={({ isActive }) => isActive ? "text-red-600" : "text-gray-700 hover:text-red-600"} onClick={() => setIsOpen(false)}>Home</NavLink>
@@ -41,7 +38,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Overlay */}
       {isOpen && <div className="fixed inset-0 bg-black opacity-30 z-5" onClick={() => setIsOpen(false)} />}
     </nav>
   );

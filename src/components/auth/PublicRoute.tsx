@@ -8,6 +8,5 @@ interface PublicRouteProps {
 export const PublicRoute: React.FC<PublicRouteProps> = ({ children }) => {
   const { isAuthenticated } = useAppSelector((state) => state.auth);
   
-  // If already authenticated, redirect to home
   return isAuthenticated ? <Navigate to="/home" replace /> : <>{children}</>;
 };

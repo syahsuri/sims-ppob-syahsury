@@ -27,8 +27,6 @@ export default function BannerScroll() {
       <h2 className="text-lg md:text-xl font-semibold text-gray-800 ml-4 mb-4">
         Temukan Promo Menarik Lainnya
       </h2>
-
-      {/* Left button */}
       <button
         onClick={() => scroll("left")}
         className="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-md rounded-full p-2 z-10 hover:bg-gray-100"
@@ -36,7 +34,6 @@ export default function BannerScroll() {
         <ChevronLeft size={20} />
       </button>
 
-      {/* Banner container */}
       <div
         ref={scrollRef}
         className="flex overflow-x-auto gap-4 scroll-smooth px-6 no-scrollbar"
@@ -52,7 +49,6 @@ export default function BannerScroll() {
         ))}
       </div>
 
-      {/* Right button */}
       <button
         onClick={() => scroll("right")}
         className="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-md rounded-full p-2 z-10 hover:bg-gray-100"

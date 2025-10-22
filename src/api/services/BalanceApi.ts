@@ -1,4 +1,3 @@
-// api/balanceApi.ts
 import { axiosInstance } from "../AxiosConfig";
 
 export interface BalanceResponse {

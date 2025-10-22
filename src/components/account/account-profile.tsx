@@ -37,7 +37,6 @@ export const ProfileForm = () => {
 
   const handleEditToggle = () => setIsEditing(true);
 
-  // ✅ Save profile name changes
   const handleSave = async () => {
     try {
       const updated = await authApi.updateProfile({
@@ -55,7 +54,6 @@ export const ProfileForm = () => {
 
   const handleCancel = () => setIsEditing(false);
 
-  // ✅ Logout
   const handleLogout = () => {
     authApi.logout();
     navigate("/login");
@@ -93,7 +91,6 @@ export const ProfileForm = () => {
 
   return (
     <div className="space-y-6 w-full max-w-2xl mx-auto px-4 md:px-0">
-      {/* Avatar */}
       <div className="flex flex-col items-center space-y-4">
         <div className="relative group">
           <img
@@ -102,7 +99,6 @@ export const ProfileForm = () => {
             className="w-28 h-28 rounded-full object-cover border-2 border-gray-300"
           />
 
-          {/* Upload Button */}
           <label className="absolute bottom-0 right-0 bg-red-500 p-2 rounded-full text-white hover:bg-red-600 cursor-pointer flex items-center justify-center">
             <Camera size={16} />
             <input
@@ -125,7 +121,6 @@ export const ProfileForm = () => {
         </h2>
       </div>
 
-      {/* Form Fields */}
       <div className="space-y-4">
         <div>
           <label className="block mb-1 text-gray-700 font-medium">Email</label>
@@ -181,7 +176,6 @@ export const ProfileForm = () => {
         </div>
       </div>
 
-      {/* Buttons */}
       <div className="flex flex-col md:flex-row gap-4 justify-center md:justify-start mt-4">
         {!isEditing ? (
           <>

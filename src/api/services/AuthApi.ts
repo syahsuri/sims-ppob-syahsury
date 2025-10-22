@@ -35,7 +35,7 @@ export const authApi = {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await axiosInstance.post("/profile/image", formData, {
+    const response = await axiosInstance.put("/profile/image", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
 
