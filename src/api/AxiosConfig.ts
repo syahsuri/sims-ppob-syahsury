@@ -10,10 +10,10 @@ export const axiosInstance = axios.create({
   },
 });
 
-// ✅ Add Authorization header from cookies
+
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = Cookies.get("token"); // Get token from cookies
+    const token = Cookies.get("token"); 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -22,14 +22,15 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// ✅ Handle unauthorized response (401)
+
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      Cookies.remove("token"); // Remove token from cookies
-      window.location.href = "/login"; // Redirect to login
+      Cookies.remove("token"); 
+      window.location.href = "/login"; 
     }
     return Promise.reject(error);
   }
 );
+

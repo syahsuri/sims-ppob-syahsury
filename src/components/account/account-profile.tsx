@@ -1,55 +1,127 @@
-import { useState } from "react";
-import { User, Mail, Edit, LogOut } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { User, Mail, LogOut, Camera } from "lucide-react";
 import defaultAvatar from "@/assets/ProfilePhoto.png";
+import { authApi } from "@/api/services/AuthApi";
 
-interface ProfileFormProps {
-  initialData?: {
-    firstName: string;
-    lastName: string;
-    email: string;
-  };
-}
-
-export const ProfileForm = ({
-  initialData = {
-    firstName: "Kristanto",
-    lastName: "Wibowo",
-    email: "kristanto@example.com",
-  },
-}: ProfileFormProps) => {
+export const ProfileForm = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const [form, setForm] = useState(initialData);
+  const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
+  const [form, setForm] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    profile_image: defaultAvatar,
+  });
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const data = await authApi.getProfile();
+        setForm(data);
+      } catch (error) {
+        console.error("Failed to fetch profile:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleEditToggle = () => setIsEditing(true);
-  const handleSave = () => setIsEditing(false); // Add save logic
-  const handleCancel = () => {
-    setForm(initialData);
-    setIsEditing(false);
+
+  // ✅ Save profile name changes
+  const handleSave = async () => {
+    try {
+      const updated = await authApi.updateProfile({
+        first_name: form.first_name,
+        last_name: form.last_name,
+      });
+      setForm(updated);
+      setIsEditing(false);
+      alert("Profil berhasil diperbarui!");
+    } catch (error) {
+      console.error("Failed to update profile:", error);
+      alert("Gagal memperbarui profil.");
+    }
   };
+
+  const handleCancel = () => setIsEditing(false);
+
+  // ✅ Logout
+  const handleLogout = () => {
+    authApi.logout();
+    navigate("/login");
+  };
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const maxSize = 100 * 1024; 
+    if (file.size > maxSize) {
+      alert("Ukuran foto maksimal 100KB!");
+      e.target.value = ""; 
+      return;
+    }
+
+    setPreviewImage(URL.createObjectURL(file));
+    setUploading(true);
+
+    try {
+      const updated = await authApi.uploadProfileImage(file);
+      setForm((prev) => ({ ...prev, profile_image: updated.profile_image }));
+      alert("Foto profil berhasil diperbarui!");
+    } catch (error) {
+      console.error("Failed to upload image:", error);
+      alert("Gagal memperbarui foto profil.");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  if (loading) {
+    return <p className="text-center mt-10">Loading profile...</p>;
+  }
 
   return (
     <div className="space-y-6 w-full max-w-2xl mx-auto px-4 md:px-0">
       {/* Avatar */}
       <div className="flex flex-col items-center space-y-4">
-        <div className="relative">
+        <div className="relative group">
           <img
-            src={defaultAvatar}
+            src={previewImage || form.profile_image || defaultAvatar}
             alt="Avatar"
             className="w-28 h-28 rounded-full object-cover border-2 border-gray-300"
           />
-          <button
-            className="absolute bottom-0 right-0 bg-red-500 p-2 rounded-full text-white hover:bg-red-600"
-            onClick={handleEditToggle}
-          >
-            <Edit size={16} />
-          </button>
+
+          {/* Upload Button */}
+          <label className="absolute bottom-0 right-0 bg-red-500 p-2 rounded-full text-white hover:bg-red-600 cursor-pointer flex items-center justify-center">
+            <Camera size={16} />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="hidden"
+              disabled={uploading}
+            />
+          </label>
+
+          {uploading && (
+            <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center text-white text-sm">
+              Uploading...
+            </div>
+          )}
         </div>
         <h2 className="text-xl font-semibold">
-          {form.firstName} {form.lastName}
+          {form.first_name} {form.last_name}
         </h2>
       </div>
 
@@ -64,7 +136,23 @@ export const ProfileForm = ({
               name="email"
               value={form.email}
               onChange={handleChange}
-              placeholder="Email"
+              disabled
+              className="w-full border px-3 py-2 pl-10 rounded border-gray-300 bg-gray-100"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block mb-1 text-gray-700 font-medium">
+            Nama Depan
+          </label>
+          <div className="relative">
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="text"
+              name="first_name"
+              value={form.first_name}
+              onChange={handleChange}
               disabled={!isEditing}
               className={`w-full border px-3 py-2 pl-10 rounded ${
                 isEditing ? "border-red-500" : "border-gray-300"
@@ -74,33 +162,16 @@ export const ProfileForm = ({
         </div>
 
         <div>
-          <label className="block mb-1 text-gray-700 font-medium">Nama Depan</label>
+          <label className="block mb-1 text-gray-700 font-medium">
+            Nama Belakang
+          </label>
           <div className="relative">
             <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               type="text"
-              name="firstName"
-              value={form.firstName}
+              name="last_name"
+              value={form.last_name}
               onChange={handleChange}
-              placeholder="Nama Depan"
-              disabled={!isEditing}
-              className={`w-full border px-3 py-2 pl-10 rounded ${
-                isEditing ? "border-red-500" : "border-gray-300"
-              } focus:outline-none focus:ring-2 focus:ring-red-500`}
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block mb-1 text-gray-700 font-medium">Nama Belakang</label>
-          <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="text"
-              name="lastName"
-              value={form.lastName}
-              onChange={handleChange}
-              placeholder="Nama Belakang"
               disabled={!isEditing}
               className={`w-full border px-3 py-2 pl-10 rounded ${
                 isEditing ? "border-red-500" : "border-gray-300"
@@ -121,7 +192,10 @@ export const ProfileForm = ({
               Edit Profile
             </button>
 
-            <button className="flex-1 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600 flex items-center justify-center">
+            <button
+              onClick={handleLogout}
+              className="flex-1 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600 flex items-center justify-center"
+            >
               <LogOut className="w-4 h-4 mr-2" /> Logout
             </button>
           </>

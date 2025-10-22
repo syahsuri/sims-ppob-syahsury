@@ -1,4 +1,8 @@
 import { Calculator } from "lucide-react";
+import { topup } from "@/redux/slices/TopupSlice";
+import type { RootState } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { fetchBalance } from "@/redux/slices/BalanceSlice";
 
 interface NominalInputProps {
   value: number | null;
@@ -56,17 +60,32 @@ interface PaymentRowProps {
 }
 
 export function PaymentRow({ nominal, onSelect, presetValues, includePayButton }: PaymentRowProps) {
+  const dispatch = useAppDispatch(); 
+  const { loading } = useAppSelector((state: RootState) => state.topup);
+
+  const handleTopup = async () => {
+    if (nominal) {
+      const result = await dispatch(topup(nominal));
+      if (topup.fulfilled.match(result)) {
+        dispatch(fetchBalance());
+      }
+    }
+  };
+
   return (
     <div className="flex flex-wrap gap-2 items-center justify-center md:justify-start">
       {includePayButton && (
         <button
           type="button"
-          disabled={!nominal}
+          disabled={!nominal || loading}
+          onClick={handleTopup}
           className={`flex-1 py-3 border rounded-none font-semibold text-white ${
-            nominal ? "bg-red-500 hover:bg-red-600 border-red-500" : "bg-gray-300 cursor-not-allowed border-gray-300"
+            nominal
+              ? "bg-red-500 hover:bg-red-600 border-red-500"
+              : "bg-gray-300 cursor-not-allowed border-gray-300"
           }`}
         >
-          Bayar
+          {loading ? "Memproses..." : "Bayar"}
         </button>
       )}
 
@@ -76,3 +95,4 @@ export function PaymentRow({ nominal, onSelect, presetValues, includePayButton }
     </div>
   );
 }
+

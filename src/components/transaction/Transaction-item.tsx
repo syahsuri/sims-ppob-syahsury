@@ -1,4 +1,3 @@
-// components/transaction/transaction-item.tsx
 import { cn } from "@/lib/utils";
 
 interface TransactionItemProps {

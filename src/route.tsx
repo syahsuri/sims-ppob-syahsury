@@ -8,6 +8,7 @@ import Account from "./pages/Account";
 import Topup from "./pages/Top-up";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import { PublicRoute } from "./components/auth/PublicRoute";
+import Payment from "./pages/Payment";
 
 export const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ export const router = createBrowserRouter([
           {
             path: "/transaction",
             element: <Transaction />,
+          },
+          {
+            path: "/payment",
+            element: <Payment />,
           },
           {
             path: "/akun",

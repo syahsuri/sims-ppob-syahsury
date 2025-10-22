@@ -15,7 +15,17 @@ export interface LoginCredentials {
 }
 
 export interface RegisterData {
-  name: string;
   email: string;
+  first_name: string;
+  last_name: string;
   password: string;
 }
+
+export interface UserProfile {
+  email: string;
+  first_name: string;
+  last_name: string;
+  profile_image: string;
+}
+
+

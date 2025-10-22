@@ -9,7 +9,7 @@ export default function Topup() {
 
   return (
     <div className="p-8 space-y-8">
-      <Userbalance name="Kristanto Wibowo" />
+      <Userbalance />
 
       <div className="w-full flex justify-center">
         <div className="w-full max-w-6xl flex flex-col gap-6 px-4 md:px-10">
@@ -22,14 +22,12 @@ export default function Topup() {
               </h2>
             </div>
           </div>
-
-          {/* Row 1: Input + first 3 buttons */}
+          
           <div className="flex flex-wrap gap-2 items-center justify-center md:justify-start">
             <NominalInput value={nominal} onChange={setNominal} />
             <PaymentRow nominal={nominal} onSelect={setNominal} presetValues={presetNominals.slice(0, 3)} />
           </div>
 
-          {/* Row 2: Bayar + next 3 buttons */}
           <PaymentRow nominal={nominal} onSelect={setNominal} presetValues={presetNominals.slice(3)} includePayButton />
         </div>
       </div>
