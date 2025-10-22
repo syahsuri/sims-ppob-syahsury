@@ -6,38 +6,53 @@ import Transaction from "./pages/Transaction";
 import Homepage from "./pages/Homepage";
 import Account from "./pages/Account";
 import Topup from "./pages/Top-up";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import { PublicRoute } from "./components/auth/PublicRoute";
 
 export const router = createBrowserRouter([
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <PublicRoute>
+        <Login />
+      </PublicRoute>
+    ),
   },
   {
     path: "/sign-up",
-    element: <SignUp />,
+    element: (
+      <PublicRoute>
+        <SignUp />
+      </PublicRoute>
+    ),
   },
   {
-    element: <Layout />,
+    element: <ProtectedRoute />, 
     children: [
       {
-        path: "/",
-        element: <Navigate to="/home" replace />, 
-      },
-      {
-        path: "/home",
-        element: <Homepage />,
-      },
-      {
-        path: "/topup",
-        element: <Topup />,
-      },
-      {
-        path: "/transaction",
-        element: <Transaction />,
-      },
-      {
-        path: "/akun",
-        element: <Account />,
+        element: <Layout />,
+        children: [
+          {
+            path: "/",
+            element: <Navigate to="/home" replace />,
+          },
+          {
+            path: "/home",
+            element: <Homepage />,
+          },
+          {
+            path: "/topup",
+            element: <Topup />,
+          },
+          {
+            path: "/transaction",
+            element: <Transaction />,
+          },
+          {
+            path: "/akun",
+            element: <Account />,
+          },
+        ],
       },
     ],
   },

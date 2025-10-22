@@ -21,7 +21,7 @@ const initialState: BannerState = {
 
 export const fetchBanners = createAsyncThunk("banners/fetch", async () => {
   const response = await axiosInstance.get("/banner");
-  console.log("✅ Banner API Response:", response.data);
+  console.log("Banner API Response:", response.data);
   return response.data.data;
 });
 

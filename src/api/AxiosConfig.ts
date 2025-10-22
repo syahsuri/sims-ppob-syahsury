@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const API_BASE_URL = "https://take-home-test-api.nutech-integrasi.com";
 
@@ -9,23 +10,25 @@ export const axiosInstance = axios.create({
   },
 });
 
-// ✅ Automatically attach token (if available)
+// ✅ Add Authorization header from cookies
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
-    if (token) config.headers.Authorization = `Bearer ${token}`;
+    const token = Cookies.get("token"); // Get token from cookies
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => Promise.reject(error)
 );
 
-// ✅ Redirect to login if token expired
+// ✅ Handle unauthorized response (401)
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem("token");
-      window.location.href = "/login";
+      Cookies.remove("token"); // Remove token from cookies
+      window.location.href = "/login"; // Redirect to login
     }
     return Promise.reject(error);
   }
