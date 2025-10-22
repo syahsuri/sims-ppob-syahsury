@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit"; // type-only import
 import { transactionApi } from "@/api/services/TransactionApi";
 
 interface PaymentState {
@@ -46,9 +45,8 @@ const paymentSlice = createSlice({
       })
       .addCase(
         createTransaction.fulfilled,
-        (state, action: PayloadAction<PaymentResponse>) => {
+        (state) => {
           state.loading = false;
-          state.transaction = action.payload;
         }
       )
       .addCase(createTransaction.rejected, (state, action) => {
